@@ -1,0 +1,29 @@
+{
+  "name": "vue-comp-doc-gen",
+  "version": "1.0.5",
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "iconv-lite": "^0.6.3"
+  },
+  "type": "module",
+  "description": "`vue-comp-doc-gen` — A utility package to generate documentation from Vue ts components",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "gen-doc": "./src/index.js"
+  },
+  "keywords": [
+    "vue",
+    "ts",
+    "doc",
+    "documentation",
+    "components"
+  ],
+  "author": "mvorobev",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "3.4.1"
+  }
+}
