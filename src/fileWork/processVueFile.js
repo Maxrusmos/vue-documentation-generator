@@ -1,9 +1,9 @@
 import fs from "fs-extra";
 import path from 'path';
-import extractMethods from "../methods/methods.js";
-import extractComputedProperties from "../computed/computed.js";
-import extractProps from "../props/props.js";
-import extractWatchers from "../watchers/watchers.js";
+import extractMethods from "../extraction/methods/methods.js";
+import extractComputedProperties from "../extraction/computed/computed.js";
+import extractProps from "../extraction/props/props.js";
+import extractWatchers from "../extraction/watchers/watchers.js";
 import generateMarkdown from "../generateMarkdown/generateMarkdown.js";
 
 const srcDir = './src';
@@ -27,15 +27,18 @@ export default async function processVueFile(filePath) {
     const computedInfo = extractComputedProperties(scriptContent);
     const propsInfo = extractProps(scriptContent);
     const watchersInfo = extractWatchers(scriptContent);
+    const componentDocsDir = path.join(docsDir, path.dirname(relativePath));
+    const cssRelativePath = path.relative(componentDocsDir, path.join(docsDir, 'documentation.css'));
+
     const mdContent = generateMarkdown(
         fileName,
         methodsInfo,
         computedInfo,
         propsInfo,
-        watchersInfo
+        watchersInfo,
+        cssRelativePath
     );
 
-    const componentDocsDir = path.join(docsDir, path.dirname(relativePath));
     await fs.ensureDir(componentDocsDir);
 
     const docFilePath = path.join(componentDocsDir, `${fileName}.html`);
