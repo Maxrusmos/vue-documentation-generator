@@ -27,7 +27,6 @@ export default function extractMethods(scriptContent) {
                 if (paramType.includes('<') && paramType.includes('>')) {
                     const genericTypeMatch = paramType.match(/^([a-zA-Z0-9_]+)<([a-zA-Z0-9_,\s|<>]+)>$/);
                     if (genericTypeMatch) {
-                        console.log(genericTypeMatch[1], genericTypeMatch[2]);
                         paramType = `${genericTypeMatch[1]}&lt;${genericTypeMatch[2].trim()}&gt;`;
                     }
                 }

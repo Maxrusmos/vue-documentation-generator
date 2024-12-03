@@ -5,9 +5,7 @@ import extractComputedProperties from "../extraction/computed/computed.js";
 import extractProps from "../extraction/props/props.js";
 import extractWatchers from "../extraction/watchers/watchers.js";
 import generateMarkdown from "../generateMarkdown/generateMarkdown.js";
-
-const srcDir = './src';
-const docsDir = './docs';
+import {srcDir, docsDir, staticFilesNames} from "../consts/paths.js";
 
 // Обработка Vue файла
 export default async function processVueFile(filePath) {
@@ -28,7 +26,7 @@ export default async function processVueFile(filePath) {
     const propsInfo = extractProps(scriptContent);
     const watchersInfo = extractWatchers(scriptContent);
     const componentDocsDir = path.join(docsDir, path.dirname(relativePath));
-    const cssRelativePath = path.relative(componentDocsDir, path.join(docsDir, 'documentation.css'));
+    const cssRelativePath = path.relative(componentDocsDir, path.join(docsDir, staticFilesNames.css.docFileName));
 
     const mdContent = generateMarkdown(
         fileName,
@@ -36,7 +34,7 @@ export default async function processVueFile(filePath) {
         computedInfo,
         propsInfo,
         watchersInfo,
-        cssRelativePath
+        cssRelativePath,
     );
 
     await fs.ensureDir(componentDocsDir);

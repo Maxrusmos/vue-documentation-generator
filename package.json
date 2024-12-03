@@ -14,6 +14,9 @@
   "bin": {
     "gen-doc": "./src/index.js"
   },
+  "files": [
+    "css/treeStyles.css"
+  ],
   "keywords": [
     "vue",
     "ts",

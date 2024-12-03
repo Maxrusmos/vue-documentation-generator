@@ -3,7 +3,7 @@ import generateMethodsSection from './methodsSection/generateMethodsSection.js';
 import generatePropsSection from './propsSection/generatePropsSection.js';
 import generateWatchersSection from './watchersSection/generateWatchersSection.js';
 
-export default function generateMarkdown(fileName, methodsInfo, computedInfo, propsInfo, watchersInfo, cssPath) {
+export default function generateMarkdown(fileName, methodsInfo, computedInfo, propsInfo, watchersInfo, cssFilePath) {
     const sections = [
         generatePropsSection(propsInfo),
         generateMethodsSection(methodsInfo),
@@ -19,7 +19,7 @@ export default function generateMarkdown(fileName, methodsInfo, computedInfo, pr
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>${fileName} Documentation</title>
-                <link rel="stylesheet" href="${cssPath}">
+                <link rel="stylesheet" href="${cssFilePath}">
             </head>
             <body>
                 <h1>${fileName}.vue</h1>

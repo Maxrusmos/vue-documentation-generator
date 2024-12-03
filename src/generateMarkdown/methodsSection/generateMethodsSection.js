@@ -6,30 +6,70 @@ export default function generateMethodsSection(methodsInfo) {
     let methodsContent = `    
         <div class="methods-block">
          <div class="block-header">
-            <h2 style="color: #1565C0;">Methods</h2>
+            <h2>Methods</h2>
             <div class="icon-block">
                 M
             </div>
         </div>`;
-    methodsContent += `<div style="display: flex; gap: 8px; flex-direction: column; padding-left: 12px;">`;
+    methodsContent += `<div class="methods-content">`;
     methodsInfo.forEach((method) => {
-        methodsContent += `<div>`;
+        methodsContent += `<div class="methods-item">`;
         const paramsString = method.params
             .map(
                 (param) =>
-                    `<span style="color: #42b883">${param.name}</span>: <span style="color:#4ec9b0">${param.type}</span>`
+                    `<span>${param.name}</span>: <span style="color:#4ec9b0">${param.type}</span>`
             )
             .join(', ');
 
-        methodsContent +=
-            `<span style="color:#1565C0">
-                <strong>${method.name}</strong>
-            </span>
-            <span style="color: #42b883">(${paramsString})</span>
-            <span style="color:#ad795f">${method.returnType}</span>
-            <span class="comment">${method.comment || ''}</span>`;
+        methodsContent += `
+            <div class="content-row">
+                <div class="method-signature">
+                    <span>${method.name}</span>
+                    <span>(${paramsString})</span>
+                    <span>${method.returnType}</span>
+                </div>`;
+
+            if (method.comment) {
+                methodsContent += `
+                <div class="hr-line"></div>
+                <button class="expand-comment" onclick="toggleComment(this)">
+                    <span class="arrow">►</span>
+                </button>`;
+            }
+
+            methodsContent += `</div>
+            <div class="comment">${method.comment || ''}</div>`;
         methodsContent += `</div>`;
     });
-    methodsContent += `</div></div>`;
+    methodsContent += `</div></div> 
+        <script>
+        function toggleComment(button) {
+            const methodRow = button.closest('.content-row');
+            const comment = methodRow.nextElementSibling;
+            const arrow = button.querySelector('.arrow');
+        
+            if (comment.classList.contains('show')) {
+                hideComment(comment, arrow);
+            } else {
+                showComment(comment, arrow);
+            }
+        }
+        
+        function showComment(comment, arrow) {
+            comment.style.display = 'block';
+            setTimeout(() => {
+                comment.classList.add('show'); 
+                arrow.classList.add('rotate'); 
+            }, 10);
+        }
+        
+        function hideComment(comment, arrow) {
+            comment.classList.remove('show'); 
+            arrow.classList.remove('rotate');
+            setTimeout(() => {
+                comment.style.display = 'none'; 
+            }, 200); 
+        }
+        </script>`;
     return methodsContent;
 }
