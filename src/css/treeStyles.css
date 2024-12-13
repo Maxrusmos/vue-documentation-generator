@@ -30,6 +30,7 @@ li {
 a {
     text-decoration: none;
     color: #42b883;
+    user-select: none;
 }
 
 a:hover {
@@ -39,12 +40,19 @@ a:hover {
 strong {
     color: #4CAF50;
     cursor: pointer;
+    user-select: none;
 }
 
 .folder-toggle:before {
     content: '';
     padding-right: 5px;
 }
+
+.folder-toggle {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 
 .folder-content {
     padding-left: 16px;
@@ -57,11 +65,14 @@ h1 {
 .tree-control {
     display: flex;
     gap: 8px;
+    justify-content: center;
+    align-items: center;
     padding: 4px 8px;
+    margin-bottom: 8px;
 }
 
 .v-line {
-    height: 36px;
+    height: 32px;
     width: 1px;
     border-right: 1px solid #E7E7E7;
 }
@@ -84,7 +95,7 @@ button:hover {
 
 #search {
     padding: 10px;
-    height: 36px;
+    height: 32px;
     width: calc(100% - 16px);
     box-sizing: border-box;
     outline: none;
@@ -92,22 +103,23 @@ button:hover {
     border-radius: 6px;
     background-color: transparent;
     color: #35495e;
-    font-size: 18px;
-    margin: 0 8px 8px 8px;
+    font-size: 16px;
+    margin: 0 8px 0 8px;
 }
 
 #tree-container {
-     height: calc(100% - 16px);
-     width: 100%;
-     overflow: auto;
-     padding: 1px 1px 8px 8px;
-     box-sizing: border-box;
-     background-color: #fff;
-     border-right: 1px solid #E7E7E7;
-     border-top: 1px solid #E7E7E7;
-     border-top-right-radius: 6px;
-     display: flex;
+    height: calc(100% - 8px);
+    width: 100%;
+    min-width: 306px;
+    overflow: auto;
+    padding: 2px 3px 8px 8px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-top: 2px solid #E7E7E7;
+    border-top-right-radius: 6px;
+    display: flex;
     position: relative;
+    max-width: 560px;
  }
 
 .tree-container-block {
@@ -120,22 +132,21 @@ button:hover {
 }
 
 #resizer {
-    width: 5px;
+    width: 3px;
     cursor: ew-resize;
-    background-color: #ccc;
+    background-color: #E7E7E7;
     position: absolute;
     top: 0;
     right: 0;
     height: 100%;
     z-index: 1;
-    transition: background-color 0.2s;
+    transition: background-color 0.3s;
 }
 
 #resizer:hover {
     background-color: #aaa;
+    width: 5px;
 }
-
-
 
 .content-container {
     width: 100%;
@@ -148,7 +159,7 @@ button:hover {
 
 .main-tree-container {
     height: 100%;
-    min-width: 560px;
+    max-width: 560px;
 }
 
 .container-frame {
@@ -164,15 +175,15 @@ button:hover {
     border: none;
 }
 
-
-
 .selected {
     background-color: #42b883;
     color: white;
+    transition: background-color 0.3s;
 }
 
 .tree-container-block::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
 }
 
 .tree-container-block::-webkit-scrollbar-track {
@@ -187,3 +198,5 @@ button:hover {
 .tree-container-block::-webkit-scrollbar-thumb:hover {
     background: #4CAF50;
 }
+
+

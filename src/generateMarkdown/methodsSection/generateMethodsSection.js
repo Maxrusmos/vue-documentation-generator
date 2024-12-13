@@ -22,11 +22,11 @@ export default function generateMethodsSection(methodsInfo) {
             .join(', ');
 
         methodsContent += `
-            <div class="content-row">
+            <div class="content-row" onclick="toggleComment(this)">
                 <div class="method-signature">
                     <span>${method.name}</span>
                     <span>(${paramsString})</span>
-                    <span>${method.returnType}</span>
+<!--                    <span>${method.returnType}</span>-->
                 </div>`;
 
             if (method.comment) {

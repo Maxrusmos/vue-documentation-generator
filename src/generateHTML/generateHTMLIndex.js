@@ -41,8 +41,9 @@ export default async function generateHTMLIndex(baseDir, outputFilePath) {
     <div class="header">
         <h1>Documentation</h1>
     </div>
-   <div class="content-container">
-       <div class="main-tree-container">
+    
+    <div class="content-container">
+        <div class="main-tree-container">
             <div class="tree-control">
                 <input type="text" id="search" placeholder="Search..." />
                 <div class="v-line"></div>
@@ -66,13 +67,14 @@ export default async function generateHTMLIndex(baseDir, outputFilePath) {
             </div>
             <div id="tree-container">
                 <div class="tree-container-block"> ${generateHTML(tree)}</div>
-                <div id="resizer"></div>
+                 <div id="resizer"></div>
             </div>
-       </div>
-       <div id="file-viewer" class="container-frame">
+        </div>
+        
+        <div id="file-viewer" class="container-frame">
             <iframe id="contentFrame"></iframe>
-       </div>
-   </div>
+        </div>
+    </div>
    <script src="treeScript.js"/>
 </body>
 </html>`;

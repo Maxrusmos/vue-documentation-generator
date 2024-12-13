@@ -120,3 +120,29 @@ function collapseAll() {
 document.addEventListener('DOMContentLoaded', () => {
     openFileInIframe('App.html');
 });
+
+const treeContainer = document.getElementById('tree-container');
+const resizer = document.getElementById('resizer');
+let isResizing = false;
+
+resizer.addEventListener('mousedown', (event) => {
+    isResizing = true;
+    document.body.style.cursor = 'ew-resize';
+    window.addEventListener('mousemove', resize);
+    window.addEventListener('mouseup', stopResize);
+});
+
+function resize(event) {
+    if (!isResizing) return;
+    const newWidth = event.clientX - treeContainer.getBoundingClientRect().left;
+    if (newWidth > 100 && newWidth < window.innerWidth - 100) {
+        treeContainer.style.width = `${newWidth}px`;
+    }
+}
+
+function stopResize() {
+    isResizing = false;
+    document.body.style.cursor = '';
+    window.removeEventListener('mousemove', resize);
+    window.removeEventListener('mouseup', stopResize);
+}

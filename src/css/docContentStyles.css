@@ -184,7 +184,7 @@ tr {
     color: #8E8E8E;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out, margin-bottom 0.2s ease-in-out;
     width: calc(100% - 28px);
     padding: 0 12px 12px 12px;
     margin: 8px 0 0 12px;
@@ -192,11 +192,11 @@ tr {
     border-radius: 0 0 4px 4px;
 }
 
-
 .comment.show {
     max-height: 1000px;
     display: block;
     opacity: 1;
+    margin-bottom: 16px;
 }
 
 .methods-block .comment {

@@ -13,9 +13,8 @@ export default async function processVueFile(filePath) {
     const fileName = path.basename(filePath, '.vue');
     const fileContent = await fs.readFile(filePath, 'utf-8');
 
-    const scriptContentMatch = fileContent.match(
-        /<script\s+lang="ts"\s+setup>([\s\S]*?)<\/script>/
-    );
+    const scriptContentMatch = fileContent.match(/<script[\s\S]*?>([\s\S]*?)<\/script>/);
+
     if (!scriptContentMatch) {
         return;
     }

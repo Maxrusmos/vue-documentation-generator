@@ -1,58 +1,65 @@
 import extractComment from '../comments/comments.js';
 
-// Извлечение методов
+// Функция для экранирования HTML
+function escapeHtml(str) {
+    return str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// Функция для извлечения параметров как строки
+function processParameters(paramString) {
+    return escapeHtml(paramString.trim());
+}
+
+// Функция для разбора параметров
+function parseParameters(paramString) {
+    const params = [];
+    let depth = 0;
+    let buffer = '';
+    let paramName = '';
+
+    for (let i = 0; i < paramString.length; i++) {
+        const char = paramString[i];
+
+        if (char === '(' || char === '<') {
+            depth++;
+        } else if (char === ')' || char === '>') {
+            depth--;
+        }
+
+        if (depth === 0 && char === ':') {
+            paramName = buffer.trim();
+            buffer = '';
+        } else if (depth === 0 && (char === ',' || i === paramString.length - 1)) {
+            if (i === paramString.length - 1 && char !== ',') {
+                buffer += char;
+            }
+            const paramType = buffer.trim();
+            params.push({ name: paramName, type: escapeHtml(paramType) });
+            buffer = '';
+        } else {
+            buffer += char;
+        }
+    }
+
+    return params;
+}
+
+// Функция для извлечения методов
 export default function extractMethods(scriptContent) {
     const methodsInfo = [];
-
-    // Регулярное выражение для извлечения методов
-    const methodRegex = /const\s+(\w+)\s*=\s*\(([\w\s{},:|[\]<>]*)\)\s*=>\s*(?::\s*([\w\s|<>]+))?\s*{/g;
+    const methodRegex = /const\s+(\w+)\s*=\s*(async\s+)?\(([^)]*)\)\s*=>/g;
     let match;
 
     while ((match = methodRegex.exec(scriptContent)) !== null) {
         const methodName = match[1];
-        const params = match[2]
-            .split(',')
-            .map((param) => {
-                const paramParts = param.trim().split(':').map((p) => p.trim());
-
-                let paramName = paramParts[0];
-                let paramType = paramParts[1] || 'any';
-
-                // Обработка типов массивов, например string[]
-                if (paramType.includes('[]')) {
-                    paramType = paramType.trim();
-                }
-
-                // Обработка типов с дженериками, например TableHeaderDragendEvent<AccidentTableColumns>
-                if (paramType.includes('<') && paramType.includes('>')) {
-                    const genericTypeMatch = paramType.match(/^([a-zA-Z0-9_]+)<([a-zA-Z0-9_,\s|<>]+)>$/);
-                    if (genericTypeMatch) {
-                        paramType = `${genericTypeMatch[1]}&lt;${genericTypeMatch[2].trim()}&gt;`;
-                    }
-                }
-
-                // Обработка более сложных типов, например, string | number
-                if (paramType.includes('|')) {
-                    paramType = paramType.split('|').map(type => type.trim()).join(' | ');
-                }
-
-                // Обработка объектных типов в фигурных скобках, например { label: string }
-                if (paramName.startsWith('{') && paramName.endsWith('}')) {
-                    paramName = paramName.slice(1, -1).trim();
-                }
-
-                return { name: paramName, type: paramType };
-            })
-            .filter((param) => param.name);
-
-        // Обработка возвращаемого типа
-        const returnType = match[3] ? match[3].trim() : '';
+        const isAsync = !!match[2];
+        const paramString = match[3];
+        const params = parseParameters(paramString);
         const comment = extractComment(scriptContent, match.index);
 
         methodsInfo.push({
-            name: methodName,
+            name: isAsync ? `async ${methodName}` : methodName,
             params,
-            returnType,
             comment: comment || null,
         });
     }
